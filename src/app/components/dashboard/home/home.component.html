@@ -1,0 +1,142 @@
+<div *ngIf="isLoading" class="loading-shade">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <nb-card status="info" size="giant">
+      <nb-card-header class="test"><span>Weather Data</span><span>
+          <nb-icon style="margin-right: 0.5em;" *ngIf="canWeatherEdit && !edit" class="cursor-pointer" icon="unlock-outline"
+            (click)="clearLock()" nbTooltip="Clear lock" nbTooltipPlacement="top"
+            [ngClass]="{'redSync' : editWeatherChange}"></nb-icon>
+
+            <!-- <mat-icon style="margin-right: 0.5em;" *ngIf="canWeatherEdit" class="cursor-pointer"
+            (click)="SyncTextData()" #tooltip="matTooltip"  [matTooltip]="editWeatherChange ? 'There are unsynced changes' : 'Sync'" matTooltipPosition="left"
+            [ngClass]="{'redSync' : editWeatherChange}">sync</mat-icon> -->
+          <nb-icon style="margin-right: 0.5em;" *ngIf="canWeatherEdit" class="cursor-pointer" icon="sync-outline"
+            (click)="SyncTextData()" #tooltip="nbTooltip" nbTooltipStatus="danger"  [nbTooltip]="editWeatherChange ? 'There are unsynced changes' : 'Sync'" nbTooltipPlacement="left"
+            [ngClass]="{'redSync' : editWeatherChange}"></nb-icon>
+          <button printSectionId="print-weather-data" ngxPrint [useExistingCss]="true" nbButton ghost status="basic"
+            style="margin-top: -.5em;">
+            <nb-icon style='color: white;' icon="printer-outline" class="cursor-pointer" nbTooltip="Print"
+              nbTooltipPlacement="top"></nb-icon>
+          </button>
+          <nb-icon class="cursor-pointer" style="margin-left: 0.5em;" icon="maximize-outline" (click)="full()" nbTooltipTrigger="hint"
+            *ngIf="canWeatherEdit" nbTooltip="Zoom" nbTooltipPlacement="top">
+          </nb-icon>
+        </span></nb-card-header>
+      <nb-card-body>
+
+        <form [formGroup]="textForm" (ngSubmit)="onSubmit()" *ngIf="textData">
+          <nb-list formArrayName="Sources">
+            <nb-list-item *ngFor="let text of texts.controls; index as i">
+              <ng-container [formGroupName]="i">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-2 justify-content-right">
+                      {{ getTag(i) }}
+                    </div>
+                    <div class="col-md-9 value justify-content-left">
+                      <textarea type="text" matInput fullWidth placeholder="Project" formControlName="Data" readonly
+                        matTextareaAutosize matAutosizeMinRows=1 style="overflow:hidden;"></textarea>
+                    </div>
+                    <div class="col-md-1">
+                      <button nbButton ghost (click)="modal(i)" *ngIf="canWeatherEdit">
+                        <nb-icon icon="edit-outline"></nb-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </nb-list-item>
+          </nb-list>
+        </form>
+
+      </nb-card-body>
+
+    </nb-card>
+  </div>
+  <div class="col-md-12" id="print-weather-data" hidden>
+    <table style="width:100%;  border: 1px solid black;  border-collapse: collapse;">
+      <tr>
+        <th style="border: 1px solid black;  border-collapse: collapse;  padding: 5px; text-align: left;">Tag</th>
+        <th style="border: 1px solid black;  border-collapse: collapse;  padding: 5px; text-align: left;">Message</th>
+      </tr>
+
+      <tr *ngFor="let text of textData">
+        <td style="border: 1px solid black;  border-collapse: collapse;  padding: 5px; text-align: left;">{{text.Tag}}
+        </td>
+        <td style="border: 1px solid black;  border-collapse: collapse;  padding: 5px; text-align: left;">{{text.Data}}
+        </td>
+      </tr>
+
+    </table>
+  </div>
+
+  <div class="col-md-6">
+    <nb-card status="info" size="giant">
+      <nb-card-header class="test"><span>Speech Data</span><span>
+          <nb-icon class="cursor-pointer" icon="play-circle-outline" *ngIf="canPlay" (click)="play()"
+            style="margin-right: 0.5em;" nbTooltip="Play" nbTooltipPlacement="top">
+          </nb-icon>
+          <button printSectionId="print-decoded-data" ngxPrint [useExistingCss]="true" nbButton ghost status="basic"
+            style="margin-top: -.5em;">
+            <nb-icon style='color: white;' icon="printer-outline" class="cursor-pointer" nbTooltip="Print"
+              nbTooltipPlacement="top"></nb-icon>
+          </button>
+          <nb-icon class="cursor-pointer" style="margin-left: 0.5em;" icon="maximize-outline"
+            (click)="fullDecodedData()" nbTooltip="Zoom" nbTooltipPlacement="top">
+          </nb-icon>
+        </span></nb-card-header>
+      <nb-card-body>
+        <div *ngIf="player">
+          <ngx-player></ngx-player>
+        </div>
+        <form [formGroup]="decodedForm" (ngSubmit)="decodeSubmit()" *ngIf="decodedData">
+          <mat-form-field class="example-full-width">
+
+            <textarea *ngIf="decodedData" class="decoved-textarea" matInput formControlName="Data" readonly></textarea>
+          </mat-form-field>
+        </form>
+
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-md-12" hidden id="print-decoded-data">
+    <h3>Speech Data</h3>
+    <ng-container *ngFor="let data of rawDecodedData">
+      <p>
+        {{data.Data}}
+      </p>
+      <br>
+    </ng-container>
+  </div>
+
+  <div class="col-md-6">
+    <nb-card status="info" size="giant">
+      <nb-card-header class="test"><span>Event Logs</span>
+        <span>
+          <nb-icon class="cursor-pointer" icon="maximize-outline" (click)="fullLogStatus()" nbTooltip="Zoom"
+            nbTooltipPlacement="top"></nb-icon>
+        </span>
+      </nb-card-header>
+      <nb-card-body>
+        <ngx-event-log></ngx-event-log>
+      </nb-card-body>
+    </nb-card>
+  </div>
+
+
+
+  <div class="col-md-6">
+    <nb-card status="info" size="giant">
+      <nb-card-header class="test"><span>System Logs</span><span>
+          <nb-icon style="margin-left: 0.5em;" class="cursor-pointer" icon="maximize-outline"
+            (click)="fullServerStatus()" nbTooltip="Zoom" nbTooltipPlacement="top">
+          </nb-icon>
+        </span></nb-card-header>
+      <nb-card-body>
+        <ngx-server-status></ngx-server-status>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="row justify-content-md-center">
+  <div class="col-lg-6">
+      <nb-card>
+          <nb-card-header class="test">
+              <span>Configuration Edit</span>
+              <span>
+                  <button (click)="goback()" nbButton status="info">Go back</button>
+              </span>
+          </nb-card-header>
+          <nb-card-body>
+            <form [formGroup]="configurationEditComponentForm" (ngSubmit)="onSubmit()">
+              <input type="text" nbInput fullWidth placeholder="Key" formControlName="Key">
+              <input type="text" nbInput fullWidth placeholder="Value" formControlName="Value">
+              <button fullWidth nbButton status="primary">
+                  Update
+              </button>
+              </form>
+          </nb-card-body>
+      </nb-card>
+  </div>
+</div>

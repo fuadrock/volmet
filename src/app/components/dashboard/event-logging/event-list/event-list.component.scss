@@ -1,0 +1,123 @@
+table{
+  width: 100%;
+ }
+ .test {
+  display: flex;
+  justify-content: space-between;
+}
+.ngx-material-timepicker-form-group {
+  position: relative;
+ // max-width: 150px;
+ // width: 100%;
+  height: 42px;
+  border-bottom: 1px solid rgba(0, 0, 0, .42);
+}
+
+.ngx-material-timepicker-form-group--toggled {
+    display: flex;
+}
+ .mat-column-id {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 10% !important;
+  width: 10% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-time {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 25% !important;
+  width: 25% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-level {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 10% !important;
+  width: 10% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-type {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 10% !important;
+  width: 10% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-message {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 45% !important;
+  width: 45% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+.container {
+  height:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.position-center {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.subtitle {
+  font-size: 20px;
+  font-weight: 400;
+  color: white;
+}
+.mat-paginator ::ng-deep{
+  .ng-star-inserted{
+    text-align: center;
+ }
+ }

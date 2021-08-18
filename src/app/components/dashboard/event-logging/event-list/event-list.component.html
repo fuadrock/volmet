@@ -1,0 +1,110 @@
+<nb-card status="info" class="position-center">
+  <div *ngIf="isLoading" class="loading-shade">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+  </div>
+  <nb-card-header class="test">
+    <span class="subtitle">Logs</span>
+    <span>
+      <nb-icon class="cursor-pointer" icon="download-outline" (click)="export()" nbTooltip="Export"
+        nbTooltipPlacement="top"></nb-icon>
+    </span>
+  </nb-card-header>
+  <nb-card-body>
+    <ng-container *ngIf="viewEvent">
+      <form [formGroup]="searchForm" (ngSubmit)="statusSubmit(true)">
+        <div class="d-flex justify-content-between">
+          <div></div>
+          <div>
+            <mat-form-field>
+              <mat-label>Report Types</mat-label>
+              <mat-select formControlName="types" multiple (selectionChange)="updateType()">
+                <mat-option value="SYSTEM">SYSTEM</mat-option>
+                <mat-option value="EVENT">EVENT</mat-option>
+                <mat-option value="ERROR">ERROR</mat-option>
+              </mat-select>
+              <mat-error >*Required!</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field>
+              <mat-label>Start date</mat-label>
+              <input formControlName="from" matInput [matDatepicker]="statudStartDatePicker">
+              <mat-datepicker-toggle matSuffix [for]="statudStartDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #statudStartDatePicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="ngx-material-timepicker-form-group ngx-material-timepicker-form-group--toggled">
+            <input placeholder="Start time" formControlName="fromTime" matInput [ngxTimepicker]="startTimepicker"
+              readonly [format]="24" [value]="'05:11'">
+            <ngx-material-timepicker-toggle [for]="startTimepicker"></ngx-material-timepicker-toggle>
+            <ngx-material-timepicker #startTimepicker></ngx-material-timepicker>
+          </div>
+
+          <div>
+            <mat-form-field>
+              <mat-label>End date</mat-label>
+              <input formControlName="to" matInput [matDatepicker]="statusEndDatePicker">
+              <mat-datepicker-toggle matSuffix [for]="statusEndDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #statusEndDatePicker></mat-datepicker>
+              <mat-error>*End date can not be less than start date!
+              </mat-error>
+            </mat-form-field>
+
+          </div>
+
+          <div class="ngx-material-timepicker-form-group ngx-material-timepicker-form-group--toggled">
+            <input placeholder="End time" matInput [ngxTimepicker]="endTimepicker" readonly [format]="24"
+              formControlName="toTime">
+            <ngx-material-timepicker-toggle [for]="endTimepicker"></ngx-material-timepicker-toggle>
+            <ngx-material-timepicker #endTimepicker></ngx-material-timepicker>
+          </div>
+
+          <div>
+            <button mat-raised-button color="primary" type="submit">Apply</button> &nbsp; &nbsp;
+            <button mat-raised-button color="warn" (click)="clearForm()">Clear</button>
+          </div>
+          <div>
+
+          </div>
+        </div>
+
+      </form>
+      <br>
+      <table [dataSource]="dataSource" mat-table style="width: -webkit-fill-available;">
+        <ng-container matColumnDef="time">
+          <th *matHeaderCellDef mat-header-cell>Date & Time</th>
+          <td *matCellDef="let row" mat-cell>
+            {{ row.DateTime }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="level">
+          <th *matHeaderCellDef mat-header-cell>Level</th>
+          <td *matCellDef="let row" mat-cell>{{ row.Level }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+          <th *matHeaderCellDef mat-header-cell>Type</th>
+          <td *matCellDef="let row" mat-cell>{{ row.Type }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="message">
+          <th *matHeaderCellDef mat-header-cell>Message</th>
+          <td *matCellDef="let row" mat-cell>
+            {{ row.Message | truncate: 130 }}
+          </td>
+        </ng-container>
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+      </table>
+      <mat-paginator #paginator (page)="onPaginateChange($event)" [length]="pageLength"
+        [pageSizeOptions]="pageSizeOptions" [pageSize]="size" showFirstLastButtons>
+      </mat-paginator>
+    </ng-container>
+    <div *ngIf="!viewEvent" class="container">
+      <h3>You don't have permission to view event logs!</h3>
+    </div>
+  </nb-card-body>
+</nb-card>

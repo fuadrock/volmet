@@ -1,0 +1,11 @@
+<nb-card status="info">
+  <nb-card-header>Add/Edit Holiday</nb-card-header>
+  <nb-card-body>
+      <textarea rows="5" nbInput fullWidth shape="round" #data  placeholder="Text Area">{{event?.title}}</textarea>
+  </nb-card-body>
+  <nb-card-footer class="footer">
+    <button nbButton hero status="danger" (click)="dismiss()">Close</button>
+    <button nbButton hero *ngIf="event" status="danger" (click)="delete(1)">Delete</button>
+    <button nbButton hero status="primary" (click)="save(data.value)">Save</button>
+  </nb-card-footer>
+</nb-card>

@@ -1,0 +1,28 @@
+<nb-card status="info" size="giant">
+  <nb-card-header class="test"><span>{{title}}</span><span>
+      &nbsp; &nbsp;
+      <nb-icon class="cursor-pointer" icon="minimize-outline" (click)="dismiss()"></nb-icon> </span></nb-card-header>
+  <nb-card-body>
+    <table [dataSource]="dataSource" mat-table style="width: -webkit-fill-available;">
+
+      <ng-container matColumnDef="time">
+        <th *matHeaderCellDef mat-header-cell >Time</th>
+        <td *matCellDef="let row" mat-cell>
+          {{ row.DateTime  }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="message">
+        <th *matHeaderCellDef mat-header-cell >Message</th>
+        <td *matCellDef="let row" mat-cell  [ngClass]="{
+          'text-danger' : row.Level === 'Information' && row.Type==='ERROR',
+          'text-fatal':row.Level === 'FATAL'
+        }"style="padding-right: 0em;">
+          {{ row.Message  }}
+        </td>
+      </ng-container>
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+    </table>
+  </nb-card-body>
+</nb-card>

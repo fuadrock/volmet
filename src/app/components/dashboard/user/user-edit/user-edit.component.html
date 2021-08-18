@@ -1,0 +1,218 @@
+<nb-card status="info" class="position-center" style="max-width: 600px">
+  <nb-card-header class="test">
+    <span>
+      <nb-icon class="cursor-pointer" (click)="goback()" icon="arrow-back-outline"></nb-icon>
+      <span class="subtitle" style="margin-left: 0.5em">Update user</span>
+    </span>
+    <span><span>
+        <button (click)="changePass()" nbButton size="small" style="text-transform: none">
+          Change password
+        </button>
+      </span></span>
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="userEditForm" (ngSubmit)="onSubmit()">
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label">Name</label>
+        <div class="col-sm-9">
+          <input type="text" [status]="f.Name.invalid && submitted? 'danger' : 'basic'" nbInput fullWidth placeholder=""
+            formControlName="Name" />
+          <ng-container *ngIf="submitted && f.Name.errors">
+            <p class="caption status-danger" *ngIf="f.Name.errors?.required">
+              *Required!
+            </p>
+            <p class="caption status-danger" *ngIf="f.Name.errors?.pattern">
+              *Invalid name!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label">Username</label>
+        <div class="col-sm-9">
+          <input type="text" [status]="f.Username.invalid && submitted? 'danger' : 'basic'" nbInput fullWidth placeholder=""
+            formControlName="Username" readonly />
+          <ng-container *ngIf="submitted && f.Username.errors">
+            <p class="caption status-danger" *ngIf="f.Username.errors?.required">
+              *Required!
+            </p>
+            <p class="caption status-danger" *ngIf="f.Username.errors?.pattern">
+              *Starts with letter and minimum 4 characters length!
+            </p>
+            <p class="caption status-danger" *ngIf="f.Username.errors?.cannotContainSpace">
+              *Username can not contain space!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+      <!-- <div *ngIf="passEdit" class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label">Password</label>
+        <div class="col-sm-9">
+          <input [status]="f.Password.invalid && submitted? 'danger' : 'basic'" type="password" nbInput fullWidth placeholder=""
+            formControlName="Password" />
+            <ng-container *ngIf="submitted && f.Password.errors">
+              <p class="caption status-danger" *ngIf="f.Password.errors?.required">
+                *Required!
+              </p>
+              <p class="caption status-danger" *ngIf="f.Password.errors?.pattern">
+                *At least 8 characters in length, 1 lowercase letters, 1 uppercase letters, 1 numbers, 1 special characters(@$!%*?#&)
+              </p>
+              <p class="caption status-danger" *ngIf="f.Password.errors?.cannotContainSpace">
+                *Password can not contain space!
+              </p>
+            </ng-container>
+        </div>
+      </div>
+      <div *ngIf="passEdit" class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label">Confirm password</label>
+        <div class="col-sm-9">
+          <input type="password" [status]="f.confirmPassword.invalid && submitted? 'danger' : 'basic'" nbInput fullWidth placeholder=""
+            formControlName="confirmPassword" />
+            <ng-container *ngIf="submitted && f.confirmPassword.errors">
+              <p class="caption status-danger" *ngIf="f.confirmPassword.errors?.required">
+                *Required!
+              </p>
+              <p class="caption status-danger" *ngIf="f.confirmPassword.errors?.mustMatch">
+                *Passwords must match!
+              </p>
+              <p class="caption status-danger" *ngIf="f.confirmPassword.errors?.pattern">
+                *At least 8 characters in length, 1 lowercase letters, 1 uppercase letters, 1 numbers, 1 special characters(@$!%*?#&)
+              </p>
+            </ng-container>
+        </div>
+      </div> -->
+      <div *ngIf="passEdit" class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label">Password</label>
+        <div class="col-sm-9 input-group" >
+          <input  [type]="fieldTextType ? 'text' : 'password'" [status]="f.Password.invalid && submitted? 'danger' : 'basic'" nbInput class="form-control size-large"
+            formControlName="Password" />
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-eye-slash': !fieldTextType,
+                    'fa-eye': fieldTextType
+                  }"
+                  (click)="toggleFieldTextType()"
+                ></i>
+              </span>
+            </div>
+        </div>
+        <ng-container *ngIf="submitted && f.Password.errors">
+          <p class="col-sm-3"></p>
+          <p class="caption status-danger col-sm-9" *ngIf="f.Password.errors?.required">
+            *Required!
+          </p>
+          <p class="caption status-danger col-sm-9" *ngIf="f.Password.errors?.pattern">
+            *At least 8 characters in length, 1 lowercase letters, 1 uppercase letters, 1 numbers, 1 special characters(@$!%*?#&)
+          </p>
+          <p class="caption status-danger col-sm-9" *ngIf="f.Password.errors?.cannotContainSpace">
+            *Password can not contain space!
+          </p>
+        </ng-container>
+
+      </div>
+      <div *ngIf="passEdit" class="form-group row ">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label">Confirm password</label>
+        <div class="col-sm-9 input-group">
+          <input  [type]="fieldTextTypeConfirm ? 'text' : 'password'" [status]="f.confirmPassword.invalid && submitted? 'danger' : 'basic'" nbInput class="form-control size-large"
+            formControlName="confirmPassword" />
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-eye-slash': !fieldTextTypeConfirm,
+                    'fa-eye': fieldTextTypeConfirm
+                  }"
+                  (click)="toggleFieldTextTypeConfirm()"
+                ></i>
+              </span>
+            </div>
+
+        </div>
+        <ng-container  *ngIf="submitted && f.confirmPassword.errors">
+          <p class="col-sm-3"></p>
+          <p class="caption status-danger col-sm-9" *ngIf="f.confirmPassword.errors?.required">
+            *Required!
+          </p>
+          <p class="caption status-danger col-sm-9" *ngIf="f.confirmPassword.errors?.mustMatch">
+            *Passwords must match!
+          </p>
+          <p class="caption status-danger col-sm-9" *ngIf="f.confirmPassword.errors?.pattern">
+            *At least 8 characters in length, 1 lowercase letters, 1 uppercase letters, 1 numbers, 1 special characters(@$!%*?#&)
+          </p>
+        </ng-container>
+      </div>
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label">Groups</label>
+        <div class="col-sm-9">
+          <nb-select [status]="f.GroupIds.invalid && submitted? 'danger' : 'basic'" formControlName="GroupIds" multiple
+            placeholder="Groups" style="width: 100%; max-width: 100% !important">
+            <nb-option *ngFor="let e of groupData" [value]="e.Id">
+              {{ e.Name }}
+            </nb-option>
+          </nb-select>
+          <ng-container *ngIf="submitted && f.GroupIds.errors">
+            <p class="caption status-danger" *ngIf="f.GroupIds.errors?.required">
+              *Required!
+            </p>
+            <p class="caption status-danger" *ngIf="f.GroupIds.errors?.noPermission">
+              *You have no permission to assign groups. Please contact with administration!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label">Status</label>
+        <div class="col-sm-9">
+          <nb-radio-group formControlName="Status" placeholder="">
+            <nb-radio value="ACTIVE">ACTIVE</nb-radio>
+            <nb-radio value="INACTIVE">INACTIVE</nb-radio>
+          </nb-radio-group>
+        </div>
+      </div>
+
+
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label">Valid from</label>
+        <div class="col-sm-9">
+          <mat-form-field appearance="fill" style="width: 100%">
+            <mat-label>dd/MM/yyyy</mat-label>
+            <input matInput [matDatepicker]="ValidFromPicker" formControlName="ValidFrom" />
+            <mat-datepicker-toggle matSuffix [for]="ValidFromPicker"></mat-datepicker-toggle>
+            <mat-datepicker #ValidFromPicker></mat-datepicker>
+            <mat-error *ngIf="f.ValidFrom.errors && f.ValidFrom.errors?.required">*Required!</mat-error>
+
+          </mat-form-field>
+
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label">Valid throw</label>
+        <div class="col-sm-9">
+          <mat-form-field appearance="fill" style="width: 100%">
+            <mat-label>dd/MM/yyyy</mat-label>
+            <input matInput [matDatepicker]="ValidThrowPicker" formControlName="ValidTo" />
+            <mat-datepicker-toggle matSuffix [for]="ValidThrowPicker"></mat-datepicker-toggle>
+            <mat-datepicker #ValidThrowPicker></mat-datepicker>
+            <mat-error *ngIf="f.ValidTo.errors && f.ValidTo.errors?.required">*Required!</mat-error>
+          </mat-form-field>
+          <mat-error *ngIf="userEditForm.errors?.range">*End date can not be less than start date!</mat-error>
+
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="offset-sm-3 col-sm-9">
+          <button nbButton fullWidth status="primary" class="margin-top-small" size="large"
+            style="text-transform: none">
+            Update
+          </button>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

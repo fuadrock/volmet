@@ -1,0 +1,21 @@
+.container {
+  height:100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.margin-top-small {
+  margin-top: 2em;
+}
+
+.subtitle {
+  font-size: 20px;
+  font-weight: 400;
+  color: white;
+}
+
+.position-center {
+  margin: 0 auto;
+  width: 100%;
+}

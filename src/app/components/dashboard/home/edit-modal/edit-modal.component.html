@@ -1,0 +1,16 @@
+<nb-card status="info">
+    <nb-card-header>{{ title }}</nb-card-header>
+    <nb-card-body>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Weather data edit</mat-label>
+        <textarea matInput rows="5" #data  placeholder="Text Area" [formControl]='editedData'></textarea>
+        <mat-error *ngIf="editedData?.invalid && (editedData?.dirty || editedData?.touched)">
+          {{getErrorMessage()}}
+        </mat-error>
+      </mat-form-field>
+    </nb-card-body>
+    <nb-card-footer class="footer">
+      <button nbButton hero status="danger" (click)="dismiss()">Close</button>
+      <button nbButton hero status="primary"  (click)="save(data.value)">Save</button>
+    </nb-card-footer>
+  </nb-card>

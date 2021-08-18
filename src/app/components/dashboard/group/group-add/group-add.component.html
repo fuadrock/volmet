@@ -1,0 +1,70 @@
+<nb-card status="info" class="position-center" style="max-width: 600px;">
+  <nb-card-header>
+    <span>
+      <nb-icon class="cursor-pointer" (click)="goback()" icon="arrow-back-outline"></nb-icon>
+    </span>
+    <span class="subtitle" style="margin-left: 0.5em;">Add group</span>
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="AddFrom" (ngSubmit)="onSubmit()">
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label">Name</label>
+        <div class="col-sm-9">
+          <input type="text" [status]="f.Name.invalid && submitted? 'danger' : 'basic'" nbInput fullWidth formControlName="Name" />
+          <ng-container *ngIf="submitted && f.Name.errors">
+            <p class="caption status-danger" *ngIf="f.Name.errors?.required">
+              *Required!
+            </p>
+            <p class="caption status-danger" *ngIf="f.Name.errors?.pattern">
+              *Invalid name!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label">Description</label>
+        <div class="col-sm-9">
+          <textarea rows="4" type="text" nbInput fullWidth formControlName="Description"></textarea>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label">Roles</label>
+        <div class="col-sm-9">
+          <nb-select formControlName="RoleIds" [status]="f.RoleIds.invalid && submitted? 'danger' : 'basic'" multiple style="width: 100%; max-width: 100%;">
+            <nb-option *ngFor="let e of roleData" [value]="e.Id">
+              {{ e.Name }}
+            </nb-option>
+          </nb-select>
+          <ng-container *ngIf="submitted && f.RoleIds.errors">
+            <p class="caption status-danger" *ngIf="f.RoleIds.errors?.required">
+              *Required!
+            </p>
+            <p class="caption status-danger" *ngIf="f.RoleIds.errors?.noPermission">
+              *You have no permissions to assign roles. Please contact with administration!
+            </p>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label">Status</label>
+        <div class="col-sm-9">
+          <nb-radio-group formControlName="Status">
+            <nb-radio value="ACTIVE">ACTIVE</nb-radio>
+            <nb-radio value="INACTIVE">INACTIVE</nb-radio>
+          </nb-radio-group>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="offset-sm-3 col-sm-9">
+          <button nbButton fullWidth status="primary" class="margin-top-small" size="large"
+            style="text-transform: none;">
+            Save
+          </button>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

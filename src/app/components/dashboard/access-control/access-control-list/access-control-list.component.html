@@ -1,0 +1,36 @@
+<nb-card status="info" class="position-center" style="max-width: 600px;">
+  <nb-card-header>
+    <span class="subtitle">Access controls</span>
+  </nb-card-header>
+  <nb-card-body>
+    <table
+      *ngIf="viewPerssion"
+      [dataSource]="dataSource"
+      mat-table
+      style="width: -webkit-fill-available;"
+    >
+      <!-- <ng-container matColumnDef="id">
+        <th *matHeaderCellDef mat-header-cell>SN</th>
+        <td *matCellDef="let i = index" mat-cell>
+          {{ i + paginateStartNo + 1 }}
+        </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="name">
+        <th *matHeaderCellDef mat-header-cell>Name</th>
+        <td *matCellDef="let row" mat-cell>{{ row.Name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th *matHeaderCellDef mat-header-cell>Status</th>
+        <td *matCellDef="let row" mat-cell>{{ row.Status }}</td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+    </table>
+    <div *ngIf="!viewPerssion" class="container">
+      <h3>You don't have permission to view access controls!</h3>
+    </div>
+  </nb-card-body>
+</nb-card>

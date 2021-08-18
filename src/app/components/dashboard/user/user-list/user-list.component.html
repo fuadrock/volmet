@@ -1,0 +1,78 @@
+
+<nb-card status="info">
+  <div *ngIf="isLoading" class="loading-shade">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+  </div>
+  <nb-card-header class="test">
+    <span class="subtitle">Users</span><span style="margin-left: 0.5em;">
+      <nb-icon class="cursor-pointer" icon="plus-circle-outline" (click)="addUser()"></nb-icon>
+      <nb-icon class="cursor-pointer" icon="download-outline" (click)="export()" nbTooltip="Export"
+        nbTooltipPlacement="top"></nb-icon>
+    </span>
+  </nb-card-header>
+  <nb-card-body>
+    <table *ngIf="viewUser" [dataSource]="dataSource" mat-table style="width: -webkit-fill-available;">
+      <!-- <ng-container matColumnDef="no">
+        <th *matHeaderCellDef mat-header-cell>SN</th>
+        <td *matCellDef="let i = index" mat-cell>
+          {{ i + (page*size) + 1 }}
+        </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="name">
+        <th *matHeaderCellDef mat-header-cell>Name</th>
+        <td *matCellDef="let row" mat-cell>{{ row.Name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="username">
+        <th *matHeaderCellDef mat-header-cell>Username</th>
+        <td *matCellDef="let row" mat-cell>{{ row.Username }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th *matHeaderCellDef mat-header-cell>Active</th>
+        <td *matCellDef="let row" mat-cell>{{ row.Status }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="group">
+        <th *matHeaderCellDef mat-header-cell>Groups</th>
+        <td *matCellDef="let row" mat-cell>
+          <span nbTooltip={{getGroups(row.Groups)}}>
+            {{getGroups(row.Groups) | truncate:25 }}
+          </span>
+          <!-- <span  *ngFor="let data of row.Groups; let i = index">
+            {{data.Name}}{{i === row.Groups.length - 1 ? '' : ', '}}
+          </span> -->
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="lastAccess">
+        <th *matHeaderCellDef mat-header-cell>Last access</th>
+        <td *matCellDef="let row" mat-cell>
+          {{ row.LastAccessTime }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th *matHeaderCellDef mat-header-cell>Action</th>
+        <td *matCellDef="let row" mat-cell>
+          <button nbButton ghost (click)="editUser(row)">
+            <nb-icon icon="edit-outline"></nb-icon>
+          </button>
+          <button nbButton ghost (click)="deleteUser(row)">
+            <nb-icon icon="trash-2-outline"></nb-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+    </table>
+    <mat-paginator #paginator (page)="onPaginateChange($event)" [length]="pageLength"
+      [pageSizeOptions]="pageSizeOptions" [pageSize]="size" showFirstLastButtons>
+    </mat-paginator>
+    <div *ngIf="!viewUser" class="container">
+      <h3>You don't have permission to view users!</h3>
+    </div>
+
+  </nb-card-body>
+</nb-card>

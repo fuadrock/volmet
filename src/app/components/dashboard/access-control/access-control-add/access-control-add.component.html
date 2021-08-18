@@ -1,0 +1,29 @@
+<div class="row justify-content-md-center">
+  <div class="col-lg-6">
+      <nb-card>
+          <nb-card-header class="test">
+              <span>Access Control/Add Access Control</span>
+              <span>
+                  <button (click)="goback()" nbButton status="info">Go back</button>
+              </span>
+          </nb-card-header>
+          <nb-card-body>
+            <form [formGroup]="accessControlAddForm" (ngSubmit)="onSubmit()">
+              <input type="text" nbInput fullWidth placeholder="Access Control Name" formControlName="name">
+
+              <br>  <br>
+
+              <mat-radio-group formControlName="status" >
+                <mat-radio-button  value="Active">Active</mat-radio-button>
+                <mat-radio-button  value="Inactive">Inactive</mat-radio-button>
+              </mat-radio-group>
+
+              <!-- <textarea rows="5" nbInput fullWidth shape="round"  placeholder="Text Area"></textarea> -->
+              <button fullWidth nbButton status="primary">
+                  Save
+              </button>
+              </form>
+          </nb-card-body>
+      </nb-card>
+  </div>
+</div>

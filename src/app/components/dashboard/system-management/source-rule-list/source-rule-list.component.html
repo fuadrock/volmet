@@ -1,0 +1,75 @@
+<nb-card status="info">
+  <nb-card-header class="justify-content-opposite">
+    <span class="subtitle"
+      >Source Rules
+      <span  style="margin-left: 0.5em; color: white;">
+        <nb-icon
+          class="cursor-pointer"
+          icon="plus-circle-outline"
+          (click)="addRule()"
+        ></nb-icon> </span
+    ></span>
+    <span>
+      <nb-icon class="cursor-pointer" icon="sync-outline"></nb-icon>
+    </span>
+  </nb-card-header>
+  <nb-card-body>
+    <table
+      [dataSource]="dataSource"
+      mat-table
+      style="width: -webkit-fill-available;"
+    >
+      <!-- <ng-container matColumnDef="id">
+        <th *matHeaderCellDef mat-header-cell>SN</th>
+        <td *matCellDef="let i = index" mat-cell>
+          {{ i + paginateStartNo + 1 }}
+        </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="rule">
+        <th *matHeaderCellDef mat-header-cell>Rule</th>
+        <td *matCellDef="let row" mat-cell>{{ row.rule }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="format">
+        <th *matHeaderCellDef mat-header-cell>Format</th>
+        <td *matCellDef="let row" mat-cell>{{ row.messageFormat }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th *matHeaderCellDef mat-header-cell>Type</th>
+        <td *matCellDef="let row" mat-cell>{{ row.type }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th *matHeaderCellDef mat-header-cell>Status</th>
+        <td *matCellDef="let row" mat-cell>{{ row.status }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th *matHeaderCellDef mat-header-cell>Action</th>
+
+        <td *matCellDef="let row" mat-cell>
+          <nb-icon
+            id="courseEdit"
+            class="cursor-pointer"
+            icon="edit-outline"
+            (click)="editRule(row)"
+          ></nb-icon>
+        </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+    </table>
+    <mat-paginator
+      #paginator
+      (page)="onPaginateChange($event)"
+      [length]="pageLength"
+      [pageSizeOptions]="pageSizeOptions"
+      [pageSize]="size"
+      showFirstLastButtons
+    >
+    </mat-paginator>
+  </nb-card-body>
+</nb-card>

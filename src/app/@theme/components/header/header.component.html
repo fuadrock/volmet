@@ -1,0 +1,89 @@
+<div class="header-container">
+  <div class="logo-container">
+    <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
+      <nb-icon icon="menu-2-outline"></nb-icon>
+    </a>
+    <div class="container">
+      <div class="row clock">
+        <div class="col-md-12">
+
+          <a class="logo" href="#" (click)="navigateHome()"><span style="font-size: 24px;">Voice VOLMET</span></a></div>
+
+        <div class="col-md-12 ">
+          <a class="logo" href="#" (click)="navigateHome()"><span style="font-size: 20px;">Broadcast System</span></a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="logo-container">
+
+    <div class="container">
+      <div class="row clock">
+        <div class="col-md-12">
+
+          <a class="logo" href="#" (click)="clock()"><span
+              style="font-size: 17px;">{{ time | date: "dd/MM/yyyy"}}</span></a></div>
+
+        <div class="col-md-12 ">
+          <a class="logo" href="#" (click)="clock()"><span
+              style="font-size: 24px;">{{ time | date: 'HH:mm:ss'}}</span></a>
+
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+</div>
+
+<div class="header-container" *ngIf="scheduleStatus && canBroadcast">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <marquee behavior="scroll" direction="right" style="color:rgb(0, 38, 255)">Broadcasting.......</marquee>
+      </div>
+      <div class="col-md-12">
+        <nb-progress-bar [value]="completed" status="primary" [displayValue]="true"></nb-progress-bar>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="header-container">
+  <nb-actions size="small">
+    <nb-action class="user-action">
+      <button mat-menu-item (click)="fileInput.click()" nbTooltip="Manual upload" nbTooltipStatus="primary"
+        nbTooltipPlacement="bottom" *ngIf="canWeatherEdit">
+        <mat-icon>attachment</mat-icon>
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Broadcast menu" nbTooltip="Broadcast option"
+        *ngIf="canBroadcast" nbTooltipStatus="primary" nbTooltipPlacement="bottom">
+        <nb-icon icon="shake-outline" [options]="{ animation: { type: 'pulse' } }"></nb-icon>
+      </button>
+    </nb-action>
+    <nb-action class="user-action">
+      <nb-user [name]="(user?.username.split('@'))[0]" [nbContextMenu]="userMenu" nbContextMenuTag="user-context-menu">
+      </nb-user>
+    </nb-action>
+  </nb-actions>
+  <input hidden #fileInput type="file" id="file" (click)="fileInput.value = null" value=""
+    (change)="uploadTextFile($event)" accept=".txt" />
+
+  <mat-menu #menu="matMenu">
+
+
+    <button mat-menu-item (click)="confirm('start')" [disabled]="bcStarted">
+      <mat-icon [ngStyle]="{'color':'green'}">play_circle_outline</mat-icon>
+
+      <span>Start</span>
+    </button>
+    <button mat-menu-item (click)="confirm('stop')" class="stop-button">
+      <span class="material-icons" [ngStyle]="{'color':'red','margin-right': '10px'}">
+        stop_circle
+      </span>
+      <span>Stop</span>
+    </button>
+  </mat-menu>
+</div>

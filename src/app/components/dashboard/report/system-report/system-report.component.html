@@ -1,0 +1,337 @@
+<nb-card>
+  <div *ngIf="isLoading" class="loading-shade">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+  </div>
+  <nb-card-body>
+    <nb-tabset *ngIf="viewReport">
+      <nb-tab tabTitle="Access During Odd Periods">
+        <form [formGroup]="oddForm" (ngSubmit)="oddLogin()">
+          <div class="d-flex justify-content-between">
+            <div>
+              <mat-form-field>
+                <mat-label>Select user</mat-label>
+                <mat-select formControlName="userName">
+                  <mat-option *ngFor="let e of userData" [value]="e.Username">{{e.Username}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="f.userName.errors && f.userName.errors?.required">*Required!</mat-error>
+                <mat-error *ngIf="f.userName.errors && f.userName.errors?.noPermission">
+                  *You have no permissions to read users. Please contact with administration!
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field>
+                <mat-label>Odd period type</mat-label>
+                <mat-select formControlName="timeSlot">
+                  <mat-option value="1">All</mat-option>
+                  <mat-option value="2">MIDNIGHT_LOGIN</mat-option>
+                  <mat-option value="3">WEEKEND_LOGIN</mat-option>
+                  <mat-option value="4">HOLIDAY_LOGIN </mat-option>
+                </mat-select>
+                <mat-error *ngIf="f.timeSlot.errors && f.timeSlot.errors?.required">*Required!</mat-error>
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field>
+                <mat-label>Choose start date</mat-label>
+                <input formControlName="from" matInput [matDatepicker]="startPicker">
+                <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                <mat-datepicker #startPicker></mat-datepicker>
+                <mat-error *ngIf="f.from.errors && f.from.errors?.required">*Required!</mat-error>
+                <mat-error *ngIf="f.from.errors && f.from.errors?.range">*Start date can not be greater than end date!
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div
+              class="ngx-material-timepicker-form-group ngx-material-timepicker-form-group--toggled timepicker-margin">
+              <input placeholder="Start time" formControlName="fromTime" matInput [ngxTimepicker]="startTimepicker"
+                readonly [format]="24">
+              <ngx-material-timepicker-toggle [for]="startTimepicker"></ngx-material-timepicker-toggle>
+              <ngx-material-timepicker #startTimepicker></ngx-material-timepicker>
+            </div>
+            <div>
+              <mat-form-field>
+                <mat-label>Choose end date</mat-label>
+                <input formControlName="to" matInput [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="f.to.errors && f.to.errors?.required">*Required!</mat-error>
+
+                <mat-error *ngIf="f.to.errors && f.to.errors?.range">*End date can not be less than start date!
+                </mat-error>
+              </mat-form-field>
+
+            </div>
+            <div
+              class="ngx-material-timepicker-form-group ngx-material-timepicker-form-group--toggled timepicker-margin">
+              <input appearance="fill" placeholder="End time" matInput [ngxTimepicker]="endTimepicker" readonly
+                [format]="24" formControlName="toTime">
+              <ngx-material-timepicker-toggle [for]="endTimepicker"></ngx-material-timepicker-toggle>
+              <ngx-material-timepicker #endTimepicker></ngx-material-timepicker>
+            </div>
+            <div>
+              <button mat-raised-button color="primary" type="submit">Apply</button>
+            </div>
+
+          </div>
+          <div class="d-flex">
+            <!-- <ngx-charts-bar-vertical [scheme]="colorScheme" [results]="results" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend"
+              [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel">
+            </ngx-charts-bar-vertical> -->
+            <div [chart]="chart" [ngStyle]="{'width':'100%','height':'100%','display':'block'}"></div>
+          </div>
+
+        </form>
+      </nb-tab>
+      <nb-tab tabTitle="Su/Unsuccessful Login attempts">
+        <form [formGroup]="successForm" (ngSubmit)="successLogin()">
+          <div class="d-flex justify-content-between">
+
+            <div>
+              <mat-form-field>
+                <mat-label>Select user</mat-label>
+                <mat-select formControlName="userName">
+                  <mat-option *ngFor="let e of userData" [value]="e.Username">{{e.Username}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="sF.userName.errors && sF.userName.errors?.required">*Required!</mat-error>
+                <mat-error *ngIf="sF.userName.errors && sF.userName.errors?.noPermission">
+                  *You have no permissions to read users. Please contact with administration!
+                </mat-error>
+
+              </mat-form-field>
+            </div>
+
+            <div>
+              <mat-form-field>
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="status">
+                  <mat-option value="1">SUCCESSFUL</mat-option>
+                  <mat-option value="2">UNSUCCESSFUL</mat-option>
+                </mat-select>
+                <mat-error *ngIf="sF.status.errors && sF.status.errors?.required">*Required!</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div>
+              <mat-form-field>
+                <mat-label>Choose start date</mat-label>
+                <input matInput [matDatepicker]="successStart" formControlName="from">
+                <mat-datepicker-toggle matSuffix [for]="successStart"></mat-datepicker-toggle>
+                <mat-datepicker #successStart></mat-datepicker>
+                <mat-error *ngIf="sF.from.errors && sF.from.errors?.required">*Required!</mat-error>
+                <mat-error *ngIf="sF.from.errors && sF.from.errors?.range">*Start date can not be greater than end date!
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div
+              class="ngx-material-timepicker-form-group ngx-material-timepicker-form-group--toggled timepicker-margin">
+              <input placeholder="Start time" formControlName="fromTime" matInput
+                [ngxTimepicker]="successstartTimepicker" readonly [format]="24">
+              <ngx-material-timepicker-toggle [for]="successstartTimepicker"></ngx-material-timepicker-toggle>
+              <ngx-material-timepicker #successstartTimepicker></ngx-material-timepicker>
+            </div>
+
+            <div>
+              <mat-form-field>
+                <mat-label>Choose end date</mat-label>
+                <input matInput [matDatepicker]="successEnd" formControlName="to">
+                <mat-datepicker-toggle matSuffix [for]="successEnd"></mat-datepicker-toggle>
+                <mat-datepicker #successEnd></mat-datepicker>
+                <mat-error *ngIf="sF.to.errors && sF.to.errors?.required">*Required!</mat-error>
+                <mat-error *ngIf="sF.to.errors && sF.to.errors?.range">*End date can not be less than start date!
+                </mat-error>
+              </mat-form-field>
+
+            </div>
+
+            <div
+              class="ngx-material-timepicker-form-group ngx-material-timepicker-form-group--toggled timepicker-margin">
+              <input placeholder="End time" formControlName="toTime" matInput [ngxTimepicker]="successEndTimepicker"
+                readonly [format]="24">
+              <ngx-material-timepicker-toggle [for]="successEndTimepicker"></ngx-material-timepicker-toggle>
+              <ngx-material-timepicker #successEndTimepicker></ngx-material-timepicker>
+            </div>
+
+            <div>
+              <button mat-raised-button color="primary" type="submit">Apply</button>
+            </div>
+
+          </div>
+          <div class="d-flex container">
+            <!-- <ngx-charts-bar-vertical [results]="successData" [xAxis]="showXAxis" [yAxis]="showYAxis"
+             [scheme]="colorScheme" [legend]="showLegend" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel">
+            </ngx-charts-bar-vertical> -->
+            <div [chart]="successChart" [ngStyle]="{'width':'100%','height':'100%','display':'block'}"></div>
+
+          </div>
+
+        </form>
+      </nb-tab>
+      <nb-tab tabTitle="New accounts">
+
+        <nb-card status="info">
+          <nb-card-header class="test">
+            <span class="subtitle">New accounts</span><span style="margin-left: 0.5em;">
+
+              <nb-icon class="cursor-pointer" icon="download-outline" (click)="exportNewAccount()" nbTooltip="Export"
+                nbTooltipPlacement="top"></nb-icon>
+            </span>
+          </nb-card-header>
+          <nb-card-body>
+            <!-- <form [formGroup]="newAccountForm" (ngSubmit)="newAccountSubmit()">
+              <div class="d-flex justify-content-between">
+
+
+                <div>
+                  <mat-form-field >
+                    <mat-label>Choose start date</mat-label>
+                    <input formControlName="from" matInput [matDatepicker]="newAccountStartDatePicker">
+                    <mat-datepicker-toggle matSuffix [for]="newAccountStartDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #newAccountStartDatePicker></mat-datepicker>
+                    <mat-error *ngIf="nF.from.errors && nF.from.errors?.required">*Required!</mat-error>
+
+                  </mat-form-field>
+                </div>
+                <div class="ngx-material-timepicker-form-group ngx-material-timepicker-form-group--toggled timepicker-margin">
+                  <input placeholder="Start time" formControlName="fromTime" matInput [ngxTimepicker]="newaccountStartTimepicker"
+                    readonly [format]="24">
+                  <ngx-material-timepicker-toggle [for]="newaccountStartTimepicker"></ngx-material-timepicker-toggle>
+                  <ngx-material-timepicker #newaccountStartTimepicker></ngx-material-timepicker>
+                </div>
+
+                <div>
+                  <mat-form-field >
+                    <mat-label>Choose end date</mat-label>
+                    <input formControlName="to" matInput [matDatepicker]="newAccountEndDatePicker">
+                    <mat-datepicker-toggle matSuffix [for]="newAccountEndDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #newAccountEndDatePicker></mat-datepicker>
+                    <mat-error *ngIf="nF.to.errors && nF.to.errors?.required">*Required!</mat-error>
+                  </mat-form-field>
+                  <mat-error *ngIf="newAccountForm.errors?.range && newAccountForm.touched">*End date can not be less
+                    than start date!</mat-error>
+                </div>
+
+                <div class="ngx-material-timepicker-form-group ngx-material-timepicker-form-group--toggled timepicker-margin">
+                  <input placeholder="End time" formControlName="toTime" matInput [ngxTimepicker]="newAccountEndTimepicker"
+                    readonly [format]="24" >
+                  <ngx-material-timepicker-toggle [for]="newAccountEndTimepicker"></ngx-material-timepicker-toggle>
+                  <ngx-material-timepicker #newAccountEndTimepicker></ngx-material-timepicker>
+                </div>
+
+                <div>
+                  <button mat-raised-button color="primary" type="submit">Apply</button>
+                </div>
+
+              </div>
+
+            </form> -->
+            <table [dataSource]="newAccountData" mat-table style="width: -webkit-fill-available;">
+
+              <ng-container matColumnDef="User">
+                <th *matHeaderCellDef mat-header-cell>User</th>
+                <td *matCellDef="let row" mat-cell>{{ row.User }}</td>
+              </ng-container>
+
+
+
+              <tr *matHeaderRowDef="displayedColumnsNewAc" mat-header-row></tr>
+              <tr *matRowDef="let row; columns: displayedColumnsNewAc" mat-row></tr>
+            </table>
+            <mat-paginator #paginator (page)="onPaginateChangeNewAccount($event)" [length]="totalNewAccountLength"
+              [pageSizeOptions]="pageSizeOptions" [pageSize]="size" showFirstLastButtons>
+            </mat-paginator>
+
+          </nb-card-body>
+        </nb-card>
+
+
+      </nb-tab>
+      <nb-tab tabTitle="Inactive accounts">
+
+        <nb-card status="info">
+          <nb-card-header class="test">
+            <span class="subtitle">Inactive accounts</span><span style="margin-left: 0.5em;">
+
+              <nb-icon class="cursor-pointer" icon="download-outline" (click)="exportInactive()" nbTooltip="Export"
+                nbTooltipPlacement="top"></nb-icon>
+            </span>
+          </nb-card-header>
+          <nb-card-body>
+            <!-- <form [formGroup]="inactiveAccountForm" (ngSubmit)="inActiveAccountSubmit()">
+              <div class="d-flex justify-content-between">
+
+                <div>
+                  <mat-form-field >
+                    <mat-label>Choose start date</mat-label>
+                    <input formControlName="from" matInput [matDatepicker]="inactiveAccountStartDatePicker">
+                    <mat-datepicker-toggle matSuffix [for]="inactiveAccountStartDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #inactiveAccountStartDatePicker></mat-datepicker>
+                    <mat-error *ngIf="iF.from.errors && iF.from.errors?.required">*Required!</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="ngx-material-timepicker-form-group ngx-material-timepicker-form-group--toggled timepicker-margin">
+                  <input placeholder="Start time" formControlName="fromTime" matInput [ngxTimepicker]="inactiveStartTimepicker"
+                    readonly [format]="24" >
+                  <ngx-material-timepicker-toggle [for]="inactiveStartTimepicker"></ngx-material-timepicker-toggle>
+                  <ngx-material-timepicker #inactiveStartTimepicker></ngx-material-timepicker>
+                </div>
+                <div>
+                  <mat-form-field >
+                    <mat-label>Choose end date</mat-label>
+                    <input formControlName="to" matInput [matDatepicker]="inactiveAccountEndDatePicker">
+                    <mat-datepicker-toggle matSuffix [for]="inactiveAccountEndDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #inactiveAccountEndDatePicker></mat-datepicker>
+                    <mat-error *ngIf="iF.to.errors && iF.to.errors?.required">*Required!</mat-error>
+                  </mat-form-field>
+                  <mat-error *ngIf="inactiveAccountForm.errors?.range && inactiveAccountForm.touched">*End date can not
+                    be less than start date!</mat-error>
+                </div>
+                <div class="ngx-material-timepicker-form-group ngx-material-timepicker-form-group--toggled timepicker-margin">
+                  <input placeholder="End time" formControlName="toTime" matInput [ngxTimepicker]="inactiveEndTimepicker"
+                    readonly [format]="24" >
+                  <ngx-material-timepicker-toggle [for]="inactiveEndTimepicker"></ngx-material-timepicker-toggle>
+                  <ngx-material-timepicker #inactiveEndTimepicker></ngx-material-timepicker>
+                </div>
+                <div>
+                  <button mat-raised-button color="primary" type="submit">Apply</button>
+                </div>
+
+              </div>
+
+            </form> -->
+            <table [dataSource]="inactiveAccountData" mat-table style="width: -webkit-fill-available;">
+
+              <ng-container matColumnDef="User">
+                <th *matHeaderCellDef mat-header-cell>User</th>
+                <td *matCellDef="let row" mat-cell>{{ row.User }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="LastAccessTime">
+                <th *matHeaderCellDef mat-header-cell>Last Access Time</th>
+                <td *matCellDef="let row" mat-cell>{{ row.AccessTime }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="Status">
+                <th *matHeaderCellDef mat-header-cell>Status</th>
+                <td *matCellDef="let row" mat-cell>{{ row.Status }}</td>
+              </ng-container>
+
+              <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+              <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+            </table>
+            <mat-paginator #paginator (page)="onPaginateChange($event)" [length]="pageLength"
+              [pageSizeOptions]="pageSizeOptions" [pageSize]="size" showFirstLastButtons>
+            </mat-paginator>
+
+          </nb-card-body>
+        </nb-card>
+
+
+      </nb-tab>
+    </nb-tabset>
+    <div *ngIf="!viewReport" class="container">
+      <h3>You don't have permission to view reports!</h3>
+    </div>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,118 @@
+<nb-card status="info" class="position-center" style="max-width: 600px;">
+  <nb-card-header>
+    <span>
+      <nb-icon
+        class="cursor-pointer"
+        (click)="goback()"
+        icon="arrow-back-outline"
+      ></nb-icon>
+      <span class="subtitle" style="margin-left: 0.5em;"
+        >Update source rule</span
+      >
+    </span>
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="sourceRuleEditForm" (ngSubmit)="onSourceSubmit()">
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label"
+          >Rule</label
+        >
+        <div class="col-sm-9">
+          <input type="text" nbInput fullWidth formControlName="Rule" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label"
+          >Format</label
+        >
+        <div class="col-sm-9">
+          <input
+            type="text"
+            nbInput
+            fullWidth
+            formControlName="MessageFormat"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label"
+          >Type</label
+        >
+        <div class="col-sm-9">
+          <input type="text" nbInput fullWidth formControlName="Type" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label"
+          >Status</label
+        >
+        <div class="col-sm-9">
+          <nb-radio-group formControlName="Status" placeholder="">
+            <nb-radio value="ACTIVE">ACTIVE</nb-radio>
+            <nb-radio value="INACTIVE">INACTIVE</nb-radio>
+          </nb-radio-group>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="offset-sm-3 col-sm-9">
+          <button
+            nbButton
+            fullWidth
+            status="primary"
+            class="margin-top-small"
+            size="large"
+            style="text-transform: none;"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>
+
+<!-- <div class="row justify-content-md-center">
+  <div class="col-lg-6">
+      <nb-card>
+          <nb-card-header class="test">
+              <span>Source Rule Edit</span>
+              <span>
+                  <button (click)="goback()" nbButton status="info">Go back</button>
+              </span>
+          </nb-card-header>
+          <nb-card-body>
+            <form [formGroup]="sourceRuleEditForm" (ngSubmit)="onSourceSubmit()">
+              <input type="text" nbInput fullWidth placeholder="Rule" formControlName="Rule">
+              <br>
+              <input type="text" nbInput fullWidth placeholder="Message format" formControlName="MessageFormat">
+
+
+
+              <br>
+              <input type="text" nbInput fullWidth placeholder="Type" formControlName="Type">
+              <br>
+              <br>
+
+              <mat-radio-group formControlName="Status" >
+                <mat-radio-button  value="ACTIVE">ACTIVE</mat-radio-button>
+                <mat-radio-button  value="INACTIVE">INACTIVE</mat-radio-button>
+              </mat-radio-group>
+              <br>
+              <br>
+
+
+              <div class=row>
+                <div class="col-md-2">
+                  <button nbButton status="primary">
+                    Save
+                  </button>
+                </div>
+
+              </div>
+              </form>
+          </nb-card-body>
+      </nb-card>
+  </div>
+</div> -->

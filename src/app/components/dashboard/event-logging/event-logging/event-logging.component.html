@@ -1,0 +1,58 @@
+<nb-card status="info" class="position-center" style="max-width: 600px;">
+  <nb-card-header>
+    <span class="subtitle">Log settings</span>
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="AddFrom" (ngSubmit)="onSubmit()">
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-12 col-form-label"
+          >Settings</label
+        >
+        <div class="col-sm-12">
+          <table style="width: 100%;">
+            <tr>
+              <th style="padding-left: 1em; padding-right: 1em;">Type</th>
+              <th style="padding-left: 1em; padding-right: 1em;">Status</th>
+            </tr>
+
+            <ng-container formArrayName="LogSettings">
+              <ng-container *ngFor="let log of logs.controls; index as i">
+                <ng-container [formGroupName]="i">
+                  <tr>
+                    <td style="padding-left: 1em; padding-right: 1em;">
+                      {{ getName(i) }}
+                    </td>
+                    <td style="padding-left: 1em; padding-right: 1em;">
+                      <mat-radio-group
+                        formControlName="Status"
+                        style="display: flex;"
+                      >
+                        <mat-radio-button value="ACTIVE">ACTIVE</mat-radio-button>&nbsp;&nbsp;
+                        <mat-radio-button value="INACTIVE">INACTIVE</mat-radio-button>
+                      </mat-radio-group>
+                    </td>
+                  </tr>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </table>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <button
+            nbButton
+            fullWidth
+            status="primary"
+            class="margin-top-small"
+            size="large"
+            style="text-transform: none;"
+          >
+            Apply
+          </button>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

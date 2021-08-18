@@ -1,0 +1,48 @@
+<nb-card status="info" size="giant">
+  <nb-card-header class="test"
+    ><span>Weather Data</span
+    ><span>
+      <nb-icon class="cursor-pointer" icon="minimize-outline" (click)="closeAndClear()" nbTooltip="Close"  nbTooltipPlacement="top"></nb-icon> </span
+  ></nb-card-header>
+  <nb-card-body>
+      <form [formGroup]="textForm"  >
+        <nb-list formArrayName="Sources">
+          <nb-list-item *ngFor="let text of texts.controls; index as i">
+            <ng-container [formGroupName]="i">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-1 justify-content-right" [ngClass]="{'redTag' : getTag(i).includes('**')}">
+                    {{ getTag(i) }}
+                  </div>
+                  <div class="col-md-11 value justify-content-left">
+                    <!-- <textarea  matInput formControlName="Data" matTextareaAutosize matAutosizeMinRows=1 style="overflow:hidden;" (keyup)="changeValue(i)"></textarea>
+                    <label *ngIf="texts.controls[i].get('Data').errors?.required">
+                      Required!
+                    </label>
+                    <label *ngIf="texts.controls[i].get('Data').errors?.pattern">
+                      Invalid!
+                    </label> -->
+                    <mat-form-field class="example-full-width" appearance="fill">
+                      <mat-label>Weather data edit</mat-label>
+                      <textarea placeholder="Text Area" matInput formControlName="Data" matTextareaAutosize matAutosizeMinRows=1 style="overflow:hidden;" (keyup)="changeValue(i)"></textarea>
+                      <mat-error *ngIf="texts.controls[i].get('Data').errors?.required">
+                        Weather data required!
+                      </mat-error>
+                      <mat-error *ngIf="texts.controls[i].get('Data').errors?.pattern">
+                        Not a valid weather data! Allowed special characters({{specialChars}})
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </nb-list-item>
+        </nb-list>
+      </form>
+
+  </nb-card-body>
+  <nb-card-footer class="footer">
+    <button nbButton hero status="danger" [disabled]="!changes" (click)="close()">Undo changes</button>
+    <button nbButton hero status="primary" (click)="save()">Save</button>
+  </nb-card-footer>
+</nb-card>

@@ -1,0 +1,16 @@
+<nb-card status="info" size="giant">
+  <nb-card-header class="test"
+    ><span>Speech Data</span
+    ><span>
+      <nb-icon class="cursor-pointer" icon="minimize-outline" (click)="dismiss()"></nb-icon> </span
+  ></nb-card-header>
+  <nb-card-body>
+
+    <form [formGroup]="decodedForm" >
+      <mat-form-field class="example-full-width">
+
+        <textarea  class="decoved-textarea" matInput  formControlName="Data" readonly></textarea>
+      </mat-form-field>
+    </form>
+  </nb-card-body>
+</nb-card>

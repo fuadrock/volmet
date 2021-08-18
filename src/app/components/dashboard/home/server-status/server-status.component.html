@@ -1,0 +1,33 @@
+
+
+<table
+  [dataSource]="dataSource"
+  mat-table
+  style="width: -webkit-fill-available;"
+>
+
+
+  <ng-container matColumnDef="time">
+    <th *matHeaderCellDef mat-header-cell [style.display]="'none'"></th>
+    <td *matCellDef="let row" mat-cell>
+      {{ row.DateTime  }}
+    </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="message">
+    <th *matHeaderCellDef mat-header-cell [style.display]="'none'"></th>
+    <td *matCellDef="let row" mat-cell  [ngClass]="{
+      'text-success':row.Level === 'INFORMATION',
+      'text-warning':row.Level === 'WARNING',
+      'text-danger':row.Level === 'Error',
+      'text-fatal':row.Level === 'FATAL'
+    }">
+      {{ row.Message | truncate: 70 }}
+    </td>
+  </ng-container>
+
+  <!-- <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr> -->
+  <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+</table>
+

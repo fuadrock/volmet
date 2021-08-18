@@ -1,0 +1,122 @@
+.value{
+    width: 100%;
+}
+.margin{
+    margin-top: 5em;
+}
+#container{
+    display: flex;
+}
+#container .colomn {
+
+    display: flex;
+    flex-direction: row;
+
+  }
+  .btnpadding{
+  margin-bottom: 10px;
+}
+
+.nb-card {
+    position: fixed;
+    transition: all 1s linear;
+  }
+
+  .fullscreen {
+    width: '100vw';
+    height:  '100vw';
+    max-width: '100vw';
+    max-height: '100vw';
+
+  }
+  .test {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+
+
+  .mat-column-id {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 7% !important;
+    width: 7% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+  .mat-column-data {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 83% !important;
+    width: 83% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+  .mat-column-tag {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 10% !important;
+    width: 10% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    word-break: break-word;
+
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+  .mat-header-cell.text-center { text-align: center; }
+
+
+  .mat-paginator ::ng-deep{
+    .ng-star-inserted{
+      text-align: center;
+   }
+   }
+
+   .example-full-width {
+    width: 100%;
+  }
+.decoved-textarea {
+  height: 500px;
+  line-height: 2!important;
+  text-align: justify!important;
+  padding-right: 1em!important;
+}
+
+.redSync{
+  color:red;
+}
+
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding-bottom: 56px;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

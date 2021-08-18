@@ -1,0 +1,74 @@
+<nb-card status="info" class="position-center" style="max-width: 600px;">
+  <nb-card-header>
+    <span>
+      <nb-icon
+        class="cursor-pointer"
+        (click)="goback()"
+        icon="arrow-back-outline"
+      ></nb-icon>
+      <span class="subtitle" style="margin-left: 0.5em;"
+        >Update speech rule</span
+      >
+    </span>
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="speechRuleEditForm" (ngSubmit)="onspeecheSubmit()">
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label"
+          >Rule</label
+        >
+        <div class="col-sm-9">
+          <input type="text" nbInput fullWidth formControlName="Rule" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label"
+          >Format</label
+        >
+        <div class="col-sm-9">
+          <input
+            type="text"
+            nbInput
+            fullWidth
+            formControlName="MessageFormat"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label"
+          >Type</label
+        >
+        <div class="col-sm-9">
+          <input type="text" nbInput fullWidth formControlName="Type" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="inputEmail1" class="label col-sm-3 col-form-label"
+          >Status</label
+        >
+        <div class="col-sm-9">
+          <nb-radio-group formControlName="Status" placeholder="">
+            <nb-radio value="ACTIVE">ACTIVE</nb-radio>
+            <nb-radio value="INACTIVE">INACTIVE</nb-radio>
+          </nb-radio-group>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="offset-sm-3 col-sm-9">
+          <button
+            nbButton
+            fullWidth
+            status="primary"
+            class="margin-top-small"
+            size="large"
+            style="text-transform: none;"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

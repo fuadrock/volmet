@@ -1,0 +1,58 @@
+<nb-card status="info">
+  <nb-card-header class="test">
+    <span class="subtitle">Roles</span><span style="margin-left: 0.5em;">
+      <nb-icon class="cursor-pointer" icon="plus-circle-outline" (click)="addRole()"></nb-icon>
+      <nb-icon class="cursor-pointer" icon="download-outline" (click)="export()" nbTooltip="Export"
+        nbTooltipPlacement="top"></nb-icon>
+    </span>
+  </nb-card-header>
+  <nb-card-body>
+    <ng-container *ngIf="viewRole">
+      <table [dataSource]="dataSource" mat-table style="width: -webkit-fill-available;">
+        <!-- <ng-container matColumnDef="id">
+        <th *matHeaderCellDef mat-header-cell>SN</th>
+        <td *matCellDef="let i = index" mat-cell>
+          {{ i + (page*size) + 1 }}
+        </td>
+      </ng-container> -->
+
+        <ng-container matColumnDef="name">
+          <th *matHeaderCellDef mat-header-cell>Name</th>
+          <td *matCellDef="let row" mat-cell>{{ row.Name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="desc">
+          <th *matHeaderCellDef mat-header-cell>Description</th>
+          <td *matCellDef="let row" mat-cell>{{ row.Description }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th *matHeaderCellDef mat-header-cell>Status</th>
+          <td *matCellDef="let row" mat-cell>{{ row.Status }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th *matHeaderCellDef mat-header-cell>Action</th>
+
+          <td *matCellDef="let row" mat-cell>
+            <button nbButton ghost (click)="edit(row)">
+              <nb-icon icon="edit-outline"></nb-icon>
+            </button>
+            <button nbButton ghost (click)="deleteRole(row)">
+              <nb-icon icon="trash-2-outline"></nb-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+      </table>
+      <mat-paginator #paginator (page)="onPaginateChange($event)" [length]="pageLength"
+        [pageSizeOptions]="pageSizeOptions" [pageSize]="size" showFirstLastButtons>
+      </mat-paginator>
+    </ng-container>
+    <div *ngIf="!viewRole" class="container">
+      <h3>You don't have permission to view roles!</h3>
+    </div>
+  </nb-card-body>
+</nb-card>

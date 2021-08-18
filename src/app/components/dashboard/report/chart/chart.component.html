@@ -1,0 +1,6 @@
+<ng-container *ngIf="viewReport">
+<full-calendar [options]="calendarOptions"></full-calendar>
+</ng-container>
+<div *ngIf="!viewReport" class="container">
+  <h3>You don't have permission to view reports!</h3>
+</div>
